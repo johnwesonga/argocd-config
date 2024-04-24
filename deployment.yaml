@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fake-api
+  labels:
+    app: fake-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fake-api
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: fake-api
+    spec:
+      containers:
+        - name: fake-api
+          image: docker.io/johnwesonga/fake-api:amd64
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
