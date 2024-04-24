@@ -28,8 +28,8 @@ spec:
               cpu: 500m
               memory: 512Mi
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 8080
+              port: 80
